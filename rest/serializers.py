@@ -6,8 +6,7 @@ from django.contrib.auth.models import User
 class SurveySerializer(serializers.ModelSerializer):
     class Meta:
         model = Survey
-        fields = ('name', 'start_date', 'end_date', 'description', 'participant')
-        participant = serializers.ReadOnlyField(source='participant.id')
+        fields = ('name', 'start_date', 'end_date', 'description', 'participants')
 
 
 class QuestionSerializer(serializers.ModelSerializer):

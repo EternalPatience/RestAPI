@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Surveys</title>
+</head>
+<body>
+<h1>All surveys</h1>
+        {% for survey in surveys %}
+        <ul>
+            <li class="media-body">
+                <div>
+                    <h3><a href="{% url 'surveys:survey' pk=survey.pk %}">
+                    {{ survey.name }}</a></h3>
+                    <p>Start date:</p>
+                    <div>{{ survey.start_date }}</div>
+                    <p>End date:</p>
+                     <div>{{ survey.end_date }}</div>
+                    <p>Participants:</p>
+                        {% for participant in survey.participants.all %}
+                        <div>{{ participant.username }}</div>
+                        {%  endfor %}
+                    <p>Description:</p>
+                    <div>{{ survey.description }}</div>
+
+                </div>
+            </li>
+        </ul>
+        {% endfor %}
+        <h4><a href="{% url 'surveys:personal' %}">Your surveys</a> </h4>
+</body>
+</html>
