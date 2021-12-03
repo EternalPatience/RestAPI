@@ -2,12 +2,15 @@ from django.conf.urls import url, include
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework.urlpatterns import format_suffix_patterns
+
 from rest.views import (SurveyViewSet,
                         QuestionViewSet,
                         SurveyList,
                         QuestionList,
                         UserList,
-                        UserDetail)
+                        UserDetail,
+                        )
 
 
 schema_view = get_schema_view(
@@ -34,5 +37,7 @@ urlpatterns = [
     url('users/<int:pk>/', UserDetail.as_view()),
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])
 
 

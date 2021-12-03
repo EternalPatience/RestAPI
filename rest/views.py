@@ -5,6 +5,17 @@ from .serializers import SurveySerializer, QuestionSerializer, UserSerializer
 from rest_framework import mixins, generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse
+
+
+"""@api_view(['GET'])
+def api_root(request):
+    return Response({
+        'users': reverse(UserList, request=request),
+        'surveys': reverse(SurveyList, request=request),
+        'questions': reverse(QuestionList, request=request),
+    })"""
 
 
 class SurveyList(APIView):
@@ -12,12 +23,12 @@ class SurveyList(APIView):
     permission_classes = [permissions.DjangoModelPermissionsOrAnonReadOnly]
     queryset = Survey.objects.all().order_by('start_date')
 
-    def get(self, request):
+    def get(self, request, format=None):
         surveys = Survey.objects.all()
         serializer = SurveySerializer(surveys, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def post(self, request, format=None):
         serializer = SurveySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -53,12 +64,12 @@ class QuestionList(APIView):
     permission_classes = [permissions.DjangoModelPermissionsOrAnonReadOnly]
     queryset = Question.objects.all()
 
-    def get(self, request, pk):
+    def get(self, request, pk, format=None):
         questions = Question.objects.filter(survey__question=pk)
         serializer = QuestionSerializer(questions, many=True)
         return Response(serializer.data)
 
-    def post(self, request):
+    def post(self, request, format=None):
         serializer = QuestionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
